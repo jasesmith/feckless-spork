@@ -318,10 +318,13 @@ html, body, .wrapper {
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
-          flex-direction: row; }
+          flex-direction: row;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1; }
   .workspace .main {
     position: relative;
-    overflow: auto;
     -webkit-transition: -webkit-box-flex .3s ease-out;
     -webkit-transition: -webkit-flex-grow .3s ease-out;
             transition: -webkit-box-flex .3s ease-out;
@@ -357,7 +360,8 @@ html, body, .wrapper {
     -webkit-flex: 1;
         -ms-flex: 1;
             flex: 1;
-    padding: 6rem 2rem; }
+    padding: 6rem 2rem;
+    overflow: auto; }
   .workspace .settings {
     display: -webkit-box;
     display: -webkit-flex;
@@ -372,6 +376,7 @@ html, body, .wrapper {
     -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
+    overflow: auto;
     background: #363639;
     padding: 2rem;
     color: #FFF;
@@ -672,9 +677,9 @@ section .button {
     padding: 0;
     list-style: none;
     -webkit-box-flex: 1;
-    -webkit-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
+    -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -706,7 +711,9 @@ section .button {
     -webkit-box-align: center;
     -webkit-align-items: center;
         -ms-flex-align: center;
-            align-items: center; }
+            align-items: center;
+    -webkit-transition: .2s;
+            transition: .2s; }
     .spork li > div {
       margin: .5em;
       position: relative;
@@ -719,23 +726,55 @@ section .button {
     z-index: 2;
     padding: 2em;
     background: skyblue;
-    border-radius: 100%; }
+    border: 2px solid;
+    border-radius: 100%;
+    -webkit-transition: .2s;
+            transition: .2s;
+    cursor: default; }
   .spork .label {
     position: absolute;
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%); }
+            transform: translate(-50%, -50%);
+    pointer-events: none; }
   .spork .line {
     position: absolute;
     z-index: 1;
-    height: .2em;
+    padding: .2em;
     background: currentColor;
     top: 50%;
     right: 50%;
     -webkit-transform-origin: right center;
         -ms-transform-origin: right center;
-            transform-origin: right center; }
+            transform-origin: right center;
+    -webkit-transition: .2s;
+            transition: .2s;
+    pointer-events: none; }
+
+.spork ul {
+  margin: .5em; }
+.spork li {
+  margin: .5em;
+  border-radius: .3em; }
+  .spork li li {
+    font-size: .85em; }
+  .spork li:hover > div .node,
+  .spork li:hover > div .node + .line {
+    background: #9fcf3c; }
+  .spork li:hover > div .node {
+    z-index: 3;
+    -webkit-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+            transform: scale(1.2);
+    border-color: #fff; }
+    .spork li:hover > div .node:hover {
+      -webkit-transform: scale(2) !important;
+          -ms-transform: scale(2) !important;
+              transform: scale(2) !important;
+      box-shadow: 0 0 0 0.3em rgba(154, 205, 50, 0.3); }
+    .spork li:hover > div .node + .line {
+      padding: .4em; }
 
 /*# sourceMappingURL=styles.css.map */

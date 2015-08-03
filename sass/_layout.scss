@@ -50,9 +50,9 @@ html, body, .wrapper {
 .workspace {
     display: flex;
     flex-direction: row;
+    flex: 1;
     .main {
         position: relative;
-        overflow: auto;
         transition: flex-grow .3s ease-out;
         flex-grow: 2;
         flex-shrink: 1;
@@ -68,11 +68,13 @@ html, body, .wrapper {
     .canvas {
         flex: 1;
         padding: $gutter*3 $gutter;
+        overflow: auto;
     }
     .settings {
         display: flex;
         flex-direction: column;
         flex: 0 1 auto;
+        overflow: auto;
         background: $dark;
         padding: $gutter;
         color: $light;

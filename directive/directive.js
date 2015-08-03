@@ -7,22 +7,23 @@
             var numbers = {};
             if(target) {
                 numbers = {
-                    t: Math.floor(target.getBoundingClientRect().top),
-                    r: Math.floor(target.getBoundingClientRect().right),
-                    b: Math.floor(target.getBoundingClientRect().bottom),
-                    l: Math.floor(target.getBoundingClientRect().left),
-                    w: Math.floor(target.clientWidth),
-                    h: Math.floor(target.clientHeight),
+                    t: target.getBoundingClientRect().top,
+                    r: target.getBoundingClientRect().right,
+                    b: target.getBoundingClientRect().bottom,
+                    l: target.getBoundingClientRect().left,
+                    w: target.clientWidth,
+                    h: target.clientHeight,
                 };
                 // find x|y center
-                numbers.cx = (numbers.l + (numbers.h/2));
-                numbers.cy = (numbers.t + (numbers.w/2));
+                numbers.cx = (numbers.l + (numbers.w/2));
+                numbers.cy = (numbers.t + (numbers.h/2));
             }
             return numbers;
         };
 
-        var getMetrics = function(el, parent, rtl) {
+        var getMetrics = function(el, parent, rtl, factor) {
             rtl = rtl || false;
+            factor = factor || false;
 
             var en = getNumbers(el);
             var pn = getNumbers(parent);
@@ -51,6 +52,10 @@
             // last operation as this alters the number set
             var lineLength = Math.sqrt(((p1.x -= p2.x) * p1.x) + ((p1.y -= p2.y) * p1.y));
 
+            if(factor) {
+                lineLength = lineLength*factor;
+            }
+
             return {
                 lineLength: lineLength,
                 angleRadians: angleRadians,
@@ -67,6 +72,11 @@
             },
 
             controller: ['$scope', function controller($scope) {
+                var me = this;
+
+                this.defaultConfig = {};
+
+                $scope.config = $.extend(true, _.clone(me.defaultConfig), $scope.config);
 
                 $scope.connector = function connector(el, parent) {
                     el = $angular.element('#node-' + el)[0];
@@ -75,8 +85,8 @@
                     var metrics = getMetrics(el, parent, true);
 
                     return {
-                        width: metrics.lineLength + 'px',
-                        transform: 'translateY(-50%) rotate(' + metrics.angleDegrees + 'deg)'
+                        width: Math.round(metrics.lineLength) + 'px',
+                        transform: 'translateY(-50%) rotate(' + Math.round(metrics.angleDegrees) + 'deg)'
                     };
                 };
 
@@ -122,8 +132,6 @@
                 '</div>',
 
             link: function link(scope, element) {
-                var defaultConfig = {};
-                scope.config = $.extend(true, $angular.copy(defaultConfig), scope.config);
             }
         };
     }]);
