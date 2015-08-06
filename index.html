@@ -23,7 +23,9 @@
                 <main class="main">
                     <div class="canvas" ng-class="{'x-ray': xRay}">
                         <div>
-                            <spork config="config" model="model"></spork>
+                            <spork config="config" model="model" template-url="node-template.html">
+                                <span ng-click="doClick($event)">hello world</span>
+                            </spork>
                         </div>
 
                         <div>

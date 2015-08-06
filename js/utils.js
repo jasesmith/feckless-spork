@@ -1,125 +1,130 @@
-'use strict';
+(function($angular, _) {
 
-app.factory('UtilityService', ['$rootScope', function($rootScope){
+    'use strict';
 
-    var _keyCharList = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $angular.module('app')
+        .factory('UtilityService', ['$rootScope', function($rootScope){
 
-    var randomString = function(len, chars){
-        var result = '';
-        for (var i = len; i > 0; --i) {
-            result += chars[Math.round(Math.random() * (chars.length - 1))];
-        }
-        return result;
-    };
+        var _keyCharList = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    var createUuid = function(){
-        return randomString(12, _keyCharList) + '-' + randomString(12, _keyCharList);
-    };
+        var randomString = function(len, chars){
+            var result = '';
+            for (var i = len; i > 0; --i) {
+                result += chars[Math.round(Math.random() * (chars.length - 1))];
+            }
+            return result;
+        };
 
-    var randomColor = function(sample){
-        sample = sample || $rootScope.colors;
-        return _.sample(sample);
-    };
+        var createUuid = function(){
+            return randomString(12, _keyCharList) + '-' + randomString(12, _keyCharList);
+        };
 
-    var numbersArray = function(num, math){
-        if(!math) {math = 0;}
-        return new Array(num + math);
-    };
+        var randomColor = function(sample){
+            sample = sample || $rootScope.colors;
+            return _.sample(sample);
+        };
 
-    var _getNumbers = function(target){
-        var numbers = {};
-        if(target) {
-            numbers = {
-                t: target.offsetTop,
-                r: target.offsetLeft + target.offsetWidth,
-                b: target.offsetTop + target.offsetHeight,
-                l: target.offsetLeft,
-                w: target.offsetWidth,
-                h: target.offsetHeight,
+        var numbersArray = function(num, math){
+            if(!math) {math = 0;}
+            return new Array(num + math);
+        };
+
+        var _getNumbers = function(target){
+            var numbers = {};
+            if(target) {
+                numbers = {
+                    t: target.offsetTop,
+                    r: target.offsetLeft + target.offsetWidth,
+                    b: target.offsetTop + target.offsetHeight,
+                    l: target.offsetLeft,
+                    w: target.offsetWidth,
+                    h: target.offsetHeight,
+                };
+                // find x|y center
+                numbers.cx = (numbers.l + (numbers.w/2));
+                numbers.cy = (numbers.t + (numbers.h/2));
+            }
+            return numbers;
+        };
+
+        var getMetrics = function(el, parent, rtl, factor) {
+            rtl = rtl || false;
+            factor = factor || false;
+
+            var en = _getNumbers(el);
+            var pn = _getNumbers(parent);
+
+            var p1 = {
+                x: en.cx,
+                y: en.cy
             };
-            // find x|y center
-            numbers.cx = (numbers.l + (numbers.w/2));
-            numbers.cy = (numbers.t + (numbers.h/2));
-        }
-        return numbers;
-    };
+            var p2 = {
+                x: pn.cx,
+                y: pn.cy
+            };
 
-    var getMetrics = function(el, parent, rtl, factor) {
-        rtl = rtl || false;
-        factor = factor || false;
+            // angle in radians
+            var angleRadians = Math.atan2(p2.y - p1.y, p2.x - p1.x);
 
-        var en = _getNumbers(el);
-        var pn = _getNumbers(parent);
+            // angle in degrees
+            var angleDegrees = angleRadians * 180 / Math.PI;
 
-        var p1 = {
-            x: en.cx,
-            y: en.cy
+            if(rtl) {
+                // this because if the line orientation is right to left
+                angleDegrees += 180;
+            }
+
+            // length of line between two points
+            // last operation as this alters the number set
+            var lineLength = Math.sqrt(((p1.x -= p2.x) * p1.x) + ((p1.y -= p2.y) * p1.y));
+
+            if(factor) {
+                lineLength = lineLength*factor;
+            }
+
+            return {
+                lineLength: lineLength,
+                angleRadians: angleRadians,
+                angleDegrees: angleDegrees
+            };
         };
-        var p2 = {
-            x: pn.cx,
-            y: pn.cy
-        };
 
-        // angle in radians
-        var angleRadians = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+        var findDeep = function(haystack, id, found, action) {
+            found = found || {item: undefined, parentIds: []};
 
-        // angle in degrees
-        var angleDegrees = angleRadians * 180 / Math.PI;
-
-        if(rtl) {
-            // this because if the line orientation is right to left
-            angleDegrees += 180;
-        }
-
-        // length of line between two points
-        // last operation as this alters the number set
-        var lineLength = Math.sqrt(((p1.x -= p2.x) * p1.x) + ((p1.y -= p2.y) * p1.y));
-
-        if(factor) {
-            lineLength = lineLength*factor;
-        }
-
-        return {
-            lineLength: lineLength,
-            angleRadians: angleRadians,
-            angleDegrees: angleDegrees
-        };
-    };
-
-    var findDeep = function(haystack, id, found, action) {
-        found = found || {item: undefined, parentIds: []};
-
-        var item;
-        item = _.find(haystack, function(cell, index) {
-            return cell.id === id;
-        });
-        if (item) {
-            found.item = angular.copy(item);
-            found.parentIds = [];
-        } else {
-            // if no match is found, search one level deeper for each item
-            for (var i = 0; i < haystack.length; i++) {
-                item = haystack[i];
-               if (!_.isEmpty(item.children)) {
-                    found = findDeep(item.children, id, found, action);
-                    if (found.item !== undefined) {
-                        found.parentIds.unshift(item.id);
-                        break;
+            var item;
+            item = _.find(haystack, function(cell, index) {
+                return cell.id === id;
+            });
+            if (item) {
+                found.item = $angular.copy(item);
+                found.parentIds = [];
+            } else {
+                // if no match is found, search one level deeper for each item
+                for (var i = 0; i < haystack.length; i++) {
+                    item = haystack[i];
+                   if (!_.isEmpty(item.children)) {
+                        found = findDeep(item.children, id, found, action);
+                        if (found.item !== undefined) {
+                            found.parentIds.unshift(item.id);
+                            break;
+                        }
                     }
                 }
             }
+            return found;
         }
-        return found;
-    }
 
-    return {
-        createUuid: createUuid,
-        randomString: randomString,
-        randomColor: randomColor,
-        numbersArray: numbersArray,
-        getNumbers: _getNumbers,
-        getMetrics: getMetrics,
-        findDeep: findDeep
-    };
+        return {
+            createUuid: createUuid,
+            randomString: randomString,
+            randomColor: randomColor,
+            numbersArray: numbersArray,
+            getNumbers: _getNumbers,
+            getMetrics: getMetrics,
+            findDeep: findDeep
+        };
 
-}]);
+    }]);
+
+})(window.angular, window._);
