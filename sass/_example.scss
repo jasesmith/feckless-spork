@@ -2,3 +2,50 @@
     display: flex;
     flex-direction: row;
 }
+
+menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    white-space: nowrap;
+    z-index: 5;
+    background: snow;
+    border: 2px solid;
+    margin: 0;
+    padding: 0 .5em;
+    list-style: none;
+    transition: .3s;
+    border-radius: .4em;
+    transform: translateX(.5em);
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 1em;
+        right: 100%;
+        border: 0px solid transparent;
+        border-width: .65em .5em .65em 0;
+    }
+    &::before {
+        border-right-color: inherit;
+        transform: translateX(-2px);
+    }
+    &::after {
+        border-right-color: snow;
+    }
+    li {
+        padding: .5em;
+        + li {
+            border-top: 1px solid;
+        }
+    }
+}
+
+// electrical wiring
+.x-ray .spork ul li {
+	background: rgba(#000,.1);
+	.node {
+		opacity: .7;
+	}
+}

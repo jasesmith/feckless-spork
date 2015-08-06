@@ -1,34 +1,42 @@
-(function($angular, _) {
-    'use strict';
+'use strict';
+var moduleDependencies = [
+    'jamfu'
+];
 
-    $angular.module('app', ['jamfu'])
-    .controller('AppController', ['$scope', function($scope) {
+/*global app: true*/
+var app = angular.module('app', moduleDependencies);
 
-        $scope.headline = 'Feckless Spork';
-        $scope.icon = 'share-alt';
+app.controller('AppController', ['$scope', 'UtilityService', function($scope, utils) {
 
-        $scope.model = [
-            {id: 0, children: [
-                {id: 1, children: [
-                    {id: 11, children: [
-                        {id: 111},
-                        {id: 112}
-                    ]},
-                    {id: 12}
+    $scope.headline = 'Feckless Spork';
+    $scope.icon = 'share-alt';
+
+    $scope.model = [
+        {id: 0, children: [
+            {id: 1, children: [
+                {id: 11, children: [
+                    {id: 111},
+                    {id: 112}
                 ]},
+                {id: 12}
+            ]},
 
-                {id: 2, children: [
-                    {id: 21},
-                    {id: 22},
-                    {id: 23, children: [
-                        {id: 231},
-                        {id: 232},
-                        {id: 233}
-                    ]},
-                    {id: 24}
+            {id: 2, children: [
+                {id: 21},
+                {id: 22},
+                {id: 23, children: [
+                    {id: 231},
+                    {id: 232},
+                    {id: 233}
                 ]},
-            ]}
-        ];
+                {id: 24}
+            ]},
+        ]}
+    ];
 
-    }]);
-})(window.angular, window._);
+    $scope.$on('spork:node:click', function(event, data){
+        var item = utils.findDeep($scope.model, data.id);
+        window.console.log(item);
+    });
+
+}]);
