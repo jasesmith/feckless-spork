@@ -44,13 +44,12 @@
 
         $scope.doRemoveNode = function(node){
             var found = utils.findDeep($scope.model, node.id, false, 'remove');
-            window.console.log('remove', node.id, found);
+            $scope.toggleMenu();
         };
 
         $scope.doEditNode = function(node){
             window.console.log('edit', node.id, node);
         };
-
 
         $scope.toggleMenu = function(){
             $scope.showMenu = !$scope.showMenu;

@@ -98,10 +98,12 @@
             if (item) {
                 found.item = $angular.copy(item);
                 found.parentIds = [];
-                var index = _.findIndex(collection, function(cell, index){
-                    return cell.id === id;
-                });
-                collection.splice(index, 1);
+                if(action === 'remove') {
+                    var index = collection.indexOf(id);
+                    if(index > -1) {
+                        collection.splice(index, 1);
+                    }
+                }
             } else {
                 // if no match is found, search one level deeper for each item
                 for (var i = 0; i < collection.length; i++) {
