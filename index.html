@@ -23,13 +23,25 @@
                 <main class="main">
                     <div class="canvas" ng-class="{'x-ray': xRay}">
                         <div>
-                            <spork config="config" model="model"></spork>
+                            <spork config="config" model="model">
+                                <menu id="spork-menu" ng-show="showMenu">
+                                    <li><b>{{node.id}}</b></li>
+                                    <li ng-click="doAddNode(node)">Add</li>
+                                    <li ng-click="doRemoveNode(node)">Remove</li>
+                                    <li ng-click="doEditNode(node)">Edit</li>
+                                    <span class="spork-menu-toggle fa fa-remove fa-lg" ng-click="toggleMenu()"></span>
+                                </menu>
+                                <script type="text/ng-template" id="sporklet.html">
+                                    <div class="node-content">{{node.id}}</div>
+                                </script>
+                            </spork>
                         </div>
 
                         <div>
                             <b><br />Config<hr /></b>
                             <p><label><input type="checkbox" ng-model="xRay" /> X-Ray Goggles</label></p>
-                            <pre>{{rangeConfig | json}}</pre>
+                            <pre>{{config | json}}</pre>
+                            <pre>{{model | json}}</pre>
                         </div>
                     </div>
 
@@ -65,7 +77,7 @@
     <script src="bower_components/jquery.scrollTo/jquery.scrollTo.min.js"></script>
     <script src="bower_components/jamfu/jamfu.js"></script>
 
-    <script src="js/app.min.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/utils.min.js"></script>
-    <script src="directive/directive.min.js"></script>
+    <script src="directive/directive.js"></script>
 </html>

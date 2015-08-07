@@ -32,14 +32,14 @@
         transition: .2s;
         cursor: default;
     }
-    .label {
+    .node-content {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none;
     }
-    .line {
+    .node-line {
         position: absolute;
         z-index: 1;
         padding: .2em;
@@ -47,7 +47,7 @@
         top: 50%;
         right: 50%;
         transform-origin: right center;
-        transition: .2s;
+        // transition: .2s ease-out;
         pointer-events: none;
     }
 }
@@ -65,7 +65,7 @@
             &:hover {
                 > div {
                     .node,
-                    .node + .line {
+                    .node + .node-line {
                         background: mix(#fff, yellowGreen, 5%);
                     }
                     .node {
@@ -76,30 +76,12 @@
     						transform: scale(2) !important;
     						box-shadow: 0 0 0 .3em fade-out(yellowGreen, .7);
     					}
-                        + .line {
+                        + .node-line {
                             padding: .4em;
                         }
                     }
                 }
             }
-        }
-    }
-    .node-action {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        transition: .2s;
-        color: #fff;
-    }
-    .node:hover .node-action {
-        transition-delay: .5s;
-        // left: 100%;
-        &:first-of-type {
-            transform: translate(-50%, -150%) scale(1);
-        }
-        &:last-of-type {
-            transform: translate(-50%, 50%) scale(1);
         }
     }
 }
