@@ -731,7 +731,7 @@ section .button {
     -webkit-transition: .2s;
             transition: .2s;
     cursor: default; }
-  .spork .label {
+  .spork .node-content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -739,7 +739,7 @@ section .button {
         -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
     pointer-events: none; }
-  .spork .line {
+  .spork .node-line {
     position: absolute;
     z-index: 1;
     padding: .2em;
@@ -749,8 +749,6 @@ section .button {
     -webkit-transform-origin: right center;
         -ms-transform-origin: right center;
             transform-origin: right center;
-    -webkit-transition: .2s;
-            transition: .2s;
     pointer-events: none; }
 
 .spork ul {
@@ -761,7 +759,7 @@ section .button {
     .spork ul li li {
       font-size: .85em; }
     .spork ul li:hover > div .node,
-    .spork ul li:hover > div .node + .line {
+    .spork ul li:hover > div .node + .node-line {
       background: #9fcf3c; }
     .spork ul li:hover > div .node {
       z-index: 3;
@@ -774,29 +772,8 @@ section .button {
             -ms-transform: scale(2) !important;
                 transform: scale(2) !important;
         box-shadow: 0 0 0 0.3em rgba(154, 205, 50, 0.3); }
-      .spork ul li:hover > div .node + .line {
+      .spork ul li:hover > div .node + .node-line {
         padding: .4em; }
-.spork .node-action {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%) scale(0);
-      -ms-transform: translate(-50%, -50%) scale(0);
-          transform: translate(-50%, -50%) scale(0);
-  -webkit-transition: .2s;
-          transition: .2s;
-  color: #fff; }
-.spork .node:hover .node-action {
-  -webkit-transition-delay: .5s;
-          transition-delay: .5s; }
-  .spork .node:hover .node-action:first-of-type {
-    -webkit-transform: translate(-50%, -150%) scale(1);
-        -ms-transform: translate(-50%, -150%) scale(1);
-            transform: translate(-50%, -150%) scale(1); }
-  .spork .node:hover .node-action:last-of-type {
-    -webkit-transform: translate(-50%, 50%) scale(1);
-        -ms-transform: translate(-50%, 50%) scale(1);
-            transform: translate(-50%, 50%) scale(1); }
 
 .canvas {
   display: -webkit-box;
@@ -823,28 +800,34 @@ menu {
   list-style: none;
   -webkit-transition: .3s;
           transition: .3s;
-  border-radius: .4em;
-  -webkit-transform: translateX(0.5em);
-      -ms-transform: translateX(0.5em);
-          transform: translateX(0.5em); }
+  border-radius: .5em;
+  -webkit-transform: translate(0.5em, -2em);
+      -ms-transform: translate(0.5em, -2em);
+          transform: translate(0.5em, -2em);
+  box-shadow: 0 .75em 2em -.75em; }
   menu::before, menu::after {
     content: '';
     position: absolute;
-    top: 1em;
+    top: 1.35em;
     right: 100%;
     border: 0px solid transparent;
     border-width: .65em .5em .65em 0; }
   menu::before {
     border-right-color: inherit;
-    -webkit-transform: translateX(-2px);
-        -ms-transform: translateX(-2px);
-            transform: translateX(-2px); }
+    -webkit-transform: translate(-2px, 0);
+        -ms-transform: translate(-2px, 0);
+            transform: translate(-2px, 0); }
   menu::after {
     border-right-color: snow; }
   menu li {
     padding: .5em; }
     menu li + li {
       border-top: 1px solid; }
+  menu .spork-menu-toggle {
+    position: absolute;
+    top: -.25em;
+    right: -.25em;
+    padding: .5em; }
 
 .x-ray .spork ul li {
   background: rgba(0, 0, 0, 0.1); }

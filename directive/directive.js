@@ -1,30 +1,67 @@
 (function($angular, _) {
     'use strict';
 
-    app
+    angular.module('app')
+
     .directive('spork', ['UtilityService', function spork(utils) {
 
         return {
             restrict: 'E',
             replace: true,
+            transclude: true,
             scope: {
-                config: '=?',
-                model: '='
+                model: '=',
+                config: '=?'
             },
 
-            controller: ['$scope', function controller($scope) {
-                var me = this;
+            template: '' +
+                '<div class="spork">' +
+                    '<spork-ul model="model" config="config"></spork-ul>' +
+                    '<ng-transclude></ng-transclude>' +
+                '</div>',
 
-                this.defaultConfig = {};
+            link: function link(scope, element) {
+                var _defaultConfig = {};
 
-                $scope.config = $.extend(true, _.clone(me.defaultConfig), $scope.config);
+                scope.config = $.extend(true, $angular.copy(_defaultConfig), scope.config);
+            }
+        };
+    }])
 
-                $scope.connector = function connector(el, parent) {
-                    window.console.log(el, parent);
-                    if(parent !== false) {
-                        el = $angular.element('#node-' + el);
-                        parent = $angular.element('#node-' + parent);
-                        var metrics = utils.getMetrics(el[0], parent[0], true);
+    .directive('sporkUl', ['UtilityService', function sprocket(utils) {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                model: '=',
+                parent: '=?',
+                config: '='
+            },
+
+            template: '<ul><spork-li ng-repeat="node in model" node="node" parent="parent" config="config"></spork-li></ul>'
+        };
+    }])
+
+    .directive('sporkLi', ['$compile', 'UtilityService', function sporklet($compile, utils) {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                node: '=',
+                parent: '=?',
+                config: '='
+            },
+
+            controller: function($scope){
+                $scope.doClick = function(node){
+                    $scope.$emit('spork:node:click', node);
+                };
+
+                $scope.connector = function connector(node, parent) {
+                    if(!_.isUndefined(parent)) {
+                        node = $angular.element('#node-' + node.id);
+                        parent = $angular.element('#node-' + parent.id);
+                        var metrics = utils.getMetrics(node[0], parent[0], true);
 
                         return {
                             width: Math.round(metrics.lineLength) + 'px',
@@ -32,76 +69,38 @@
                         };
                     }
                 };
-
-                $scope.doClick = function(nodeId, action){
-                    $scope.$emit('spork:node:click', {id: nodeId, action: action});
-                };
-            }],
+            },
 
             template: '' +
-                '<div class="spork">' +
-                    '<ul>' +
-                        '<li ng-repeat="a in model">' +
-                            '<div id="node-{{a.id}}">' +
-                                '<div class="node">' +
-                                    '<span class="label">{{a.id}}</span>' +
-                                    '<div ng-click="doClick(a.id, \'add\')" class="node-action fa fa-plus-square"></div>' +
-                                    '<div ng-click="doClick(a.id, \'remove\')" class="node-action fa fa-minus-square"></div>' +
-                                '</div>' +
-                                '<div class="line" ng-style="connector(a.id, false)"></div>' +
-                            '</div>' +
+                '<li>' +
+                    '<div id="node-{{node.id}}" ng-click="doClick(node)">' +
+                        '<div class="node" ng-include="config.templateUrl"></div>' +
+                        '<div class="node-line" ng-style="connector(node, parent)"></div>' +
+                    '</div>' +
+                '</li>',
 
-                            '<ul ng-if="a.children.length">' +
-                                '<li ng-repeat="b in a.children">' +
-                                    '<div id="node-{{b.id}}">' +
-                                        '<div class="node">' +
-                                           '<span class="label">{{b.id}}</span>' +
-                                           '<div ng-click="doClick(b.id, \'add\')" class="node-action fa fa-plus-square"></div>' +
-                                           '<div ng-click="doClick(b.id, \'remove\')" class="node-action fa fa-minus-square"></div>' +
-                                        '</div>' +
-                                        '<div class="line" ng-style="connector(b.id, a.id)"></div>' +
-                                    '</div>' +
+            link: function (scope, element) {
 
-                                    '<ul ng-if="b.children.length">' +
-                                        '<li ng-repeat="c in b.children">' +
-                                            '<div id="node-{{c.id}}">' +
-                                                '<div class="node">' +
-                                                   '<span class="label">{{c.id}}</span>' +
-                                                   '<div ng-click="doClick(c.id, \'add\')" class="node-action fa fa-plus-square"></div>' +
-                                                   '<div ng-click="doClick(c.id, \'remove\')" class="node-action fa fa-minus-square"></div>' +
-                                                '</div>' +
-                                                '<div class="line" ng-style="connector(c.id, b.id)"></div>' +
-                                            '</div>' +
+                var _sporkUlString = '<spork-ul model="node.children" parent="node" config="config"></spork-ul>';
 
-                                            '<ul ng-if="c.children.length">' +
-                                                '<li ng-repeat="d in c.children">' +
-                                                    '<div id="node-{{d.id}}">' +
-                                                        '<div class="node">' +
-                                                           '<span class="label">{{d.id}}</span>' +
-                                                           '<div ng-click="doClick(d.id, \'add\')" class="node-action fa fa-plus-square"></div>' +
-                                                           '<div ng-click="doClick(d.id, \'remove\')" class="node-action fa fa-minus-square"></div>' +
-                                                        '</div>' +
-                                                        '<div class="line" ng-style="connector(d.id, c.id)"></div>' +
-                                                    '</div>' +
+                var renderTemplate = function(){
+                    if ($angular.isArray(scope.node.children)) {
+        				$compile(_sporkUlString)(scope, function(cloned, scope){
+                            element.append(cloned);
+                        });
+        			}
+                };
 
-                                                '</li>' +
-                                            '</ul>' +
-                                        '</li>' +
-                                    '</ul>' +
-                                '</li>' +
-                            '</ul>' +
-                        '</li>' +
-                    '</ul>' +
-                    // '<menu>' +
-                    //     '<li>Add Node</li>' +
-                    //     '<li>Delete Node</li>' +
-                    //     '<li>Settings</li>' +
-                    // '</menu>' +
+                renderTemplate();
 
-                '</div>',
+                scope.$watch('node.children', function(n, o){
+                    if(n !== o) {
+                        renderTemplate();
+                    }
+                });
 
-            link: function link(scope, element) {
-            }
+    		}
+
         };
     }]);
 
