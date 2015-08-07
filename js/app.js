@@ -7,24 +7,24 @@
         $scope.icon = 'share-alt';
 
         $scope.model = [
-            {id: 0, children: [
-                {id: 1, children: [
-                    {id: 11, children: [
-                        {id: 111},
-                        {id: 112}
+            {id: 0, label: '', type: '', line: '', children: [
+                {id: 1, label: '', type: '', line: '', children: [
+                    {id: 11, label: '', type: 'other', line: 'remote', children: [
+                        {id: 111, label: '', type: '', line: ''},
+                        {id: 112, label: '', type: '', line: ''}
                     ]},
-                    {id: 12}
+                    {id: 12, label: '', type: '', line: ''}
                 ]},
 
-                {id: 2, children: [
-                    {id: 21},
-                    {id: 22},
-                    {id: 23, children: [
-                        {id: 231},
-                        {id: 232},
-                        {id: 233}
+                {id: 2, label: '', type: '', line: '', children: [
+                    {id: 21, label: '', type: '', line: ''},
+                    {id: 22, label: '', type: '', line: ''},
+                    {id: 23, label: '', type: '', line: '', children: [
+                        {id: 231, label: '', type: '', line: ''},
+                        {id: 232, label: '', type: '', line: ''},
+                        {id: 233, label: '', type: '', line: ''}
                     ]},
-                    {id: 24}
+                    {id: 24, label: '', type: '', line: ''}
                 ]},
             ]}
         ];

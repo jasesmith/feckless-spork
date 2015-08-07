@@ -89,8 +89,8 @@
             template: '' +
                 '<li>' +
                     '<div id="node-{{node.id}}" ng-mouseleave="doLeave(node)" ng-mouseenter="doEnter(node)" ng-click="doClick(node)">' +
-                        '<div class="node" ng-include="config.templateUrl"></div>' +
-                        '<div class="node-line" ng-style="connector(node, parent)"></div>' +
+                        '<div class="node {{node.type}}" ng-include="config.templateUrl"></div>' +
+                        '<div class="node-line {{node.line}}" ng-style="connector(node, parent)"></div>' +
                     '</div>' +
                 '</li>',
 

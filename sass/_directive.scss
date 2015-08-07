@@ -47,7 +47,6 @@
         top: 50%;
         right: 50%;
         transform-origin: right center;
-        // transition: .2s ease-out;
         pointer-events: none;
     }
 }
@@ -64,24 +63,32 @@
     		}
             &:hover {
                 > div {
-                    .node,
-                    .node + .node-line {
-                        background: mix(#fff, yellowGreen, 5%);
-                    }
                     .node {
                         z-index: 3;
-                        transform: scale(1.2);
     					border-color: #fff;
+                        background: mix(#fff, yellowGreen, 5%);
+                        transform: scale(1.2);
     					&:hover {
-    						transform: scale(2) !important;
     						box-shadow: 0 0 0 .3em fade-out(yellowGreen, .7);
+    						transform: scale(1.7) !important;
     					}
                         + .node-line {
-                            padding: .4em;
+                            color: mix(#fff, yellowGreen, 5%);
+                            padding: .5em;
                         }
                     }
                 }
             }
+        }
+    }
+    .node {
+        &.other {
+            background: lavender;
+        }
+    }
+    .node-line {
+        &.remote {
+            background: repeating-linear-gradient(90deg, currentColor, currentColor .225em, transparent .25em, transparent .5em);
         }
     }
 }

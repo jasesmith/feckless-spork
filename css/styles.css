@@ -758,22 +758,26 @@ section .button {
     border-radius: .3em; }
     .spork ul li li {
       font-size: .9em; }
-    .spork ul li:hover > div .node,
-    .spork ul li:hover > div .node + .node-line {
-      background: #9fcf3c; }
     .spork ul li:hover > div .node {
       z-index: 3;
+      border-color: #fff;
+      background: #9fcf3c;
       -webkit-transform: scale(1.2);
           -ms-transform: scale(1.2);
-              transform: scale(1.2);
-      border-color: #fff; }
+              transform: scale(1.2); }
       .spork ul li:hover > div .node:hover {
-        -webkit-transform: scale(2) !important;
-            -ms-transform: scale(2) !important;
-                transform: scale(2) !important;
-        box-shadow: 0 0 0 0.3em rgba(154, 205, 50, 0.3); }
+        box-shadow: 0 0 0 0.3em rgba(154, 205, 50, 0.3);
+        -webkit-transform: scale(1.7) !important;
+            -ms-transform: scale(1.7) !important;
+                transform: scale(1.7) !important; }
       .spork ul li:hover > div .node + .node-line {
-        padding: .4em; }
+        color: #9fcf3c;
+        padding: .5em; }
+.spork .node.other {
+  background: lavender; }
+.spork .node-line.remote {
+  background: -webkit-repeating-linear-gradient(0deg, currentColor, currentColor 0.225em, transparent 0.25em, transparent 0.5em);
+  background: repeating-linear-gradient(90deg, currentColor, currentColor 0.225em, transparent 0.25em, transparent 0.5em); }
 
 .canvas {
   display: -webkit-box;
