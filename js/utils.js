@@ -101,7 +101,6 @@
                 var index = _.findIndex(collection, function(cell, index){
                     return cell.id === id;
                 });
-                window.console.log(index);
                 collection.splice(index, 1);
             } else {
                 // if no match is found, search one level deeper for each item
