@@ -24,13 +24,17 @@
                     <div class="canvas" ng-class="{'x-ray': xRay}">
                         <div>
                             <spork config="config" model="model">
-                                <menu id="spork-menu" ng-show="showMenu">
-                                    <li><b>{{node.id}}</b></li>
-                                    <li ng-click="doAddNode(node)">Add</li>
-                                    <li ng-click="doRemoveNode(node)">Remove</li>
-                                    <li ng-click="doEditNode(node)">Edit</li>
-                                    <span class="spork-menu-toggle fa fa-remove fa-lg" ng-click="toggleMenu()"></span>
-                                </menu>
+                                <div class="spork-menu" ng-class="{'active': showMenu}">
+                                    <div class="flex-row">
+                                        <b>{{node.id}}</b>
+                                        <span class="fa fa-remove" ng-click="toggleMenu()"></span>
+                                    </div>
+                                    <div class="flex-row">
+                                        <span ng-click="doAddNode(node)" class="fa fa-plus-square fa-lg"></span>
+                                        <span ng-click="doRemoveNode(node)" class="fa fa-minus-square fa-lg"></span>
+                                        <span ng-click="doEditNode(node)" class="fa fa-pencil-square fa-lg"></span>
+                                    </div>
+                                </div>
                                 <script type="text/ng-template" id="sporklet.html">
                                     <div class="node-content">{{node.id}}</div>
                                 </script>

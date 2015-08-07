@@ -14,8 +14,17 @@
                 config: '=?'
             },
 
+            controller: function($scope){
+                $scope.doEnter = function(){
+                    $scope.$emit('spork:mouseenter');
+                };
+                $scope.doLeave = function(){
+                    $scope.$emit('spork:mouseleave');
+                };
+            },
+
             template: '' +
-                '<div class="spork">' +
+                '<div class="spork" ng-mouseleave="doLeave()" ng-mouseenter="doEnter()">' +
                     '<spork-ul model="model" config="config"></spork-ul>' +
                     '<ng-transclude></ng-transclude>' +
                 '</div>',
@@ -56,6 +65,12 @@
                 $scope.doClick = function(node){
                     $scope.$emit('spork:node:click', node);
                 };
+                $scope.doEnter = function(node){
+                    $scope.$emit('spork:node:mouseenter', node);
+                };
+                $scope.doLeave = function(node){
+                    $scope.$emit('spork:node:mouseleave', node);
+                };
 
                 $scope.connector = function connector(node, parent) {
                     if(!_.isUndefined(parent)) {
@@ -73,7 +88,7 @@
 
             template: '' +
                 '<li>' +
-                    '<div id="node-{{node.id}}" ng-click="doClick(node)">' +
+                    '<div id="node-{{node.id}}" ng-mouseleave="doLeave(node)" ng-mouseenter="doEnter(node)" ng-click="doClick(node)">' +
                         '<div class="node" ng-include="config.templateUrl"></div>' +
                         '<div class="node-line" ng-style="connector(node, parent)"></div>' +
                     '</div>' +

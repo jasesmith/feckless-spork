@@ -8,18 +8,18 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-    }
-    li {
-        flex: 0 0 auto;
-        margin: 0 .5em;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        transition: .2s;
-        > div {
-            margin: .5em;
-            position: relative;
+        li {
             flex: 0 0 auto;
+            margin: 0 .5em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            transition: .2s;
+            > div {
+                margin: .5em;
+                position: relative;
+                flex: 0 0 auto;
+            }
         }
     }
     .node {
@@ -60,7 +60,7 @@
             margin: .5em;
             border-radius: .3em;
             li {
-    			font-size: .85em;
+    			font-size: .9em;
     		}
             &:hover {
                 > div {

@@ -48,7 +48,7 @@
         };
 
         $scope.doEditNode = function(node){
-            window.console.log('edit', node.id, node);
+            window.console.log('edit node', node.id, node);
         };
 
         $scope.toggleMenu = function(){
@@ -57,16 +57,35 @@
 
         $scope.showMenu = false;
 
-        $scope.$on('spork:node:click', function(event, data){
-            $scope.node = data;
+        $scope.$on('spork:mouseenter', function(event){
+            window.console.log('spork:mouseenter');
+        });
+
+        $scope.$on('spork:mouseleave', function(event){
+            window.console.log('spork:mouseleave');
+            $scope.showMenu = false;
+        });
+
+        $scope.$on('spork:node:mouseenter', function(event, node){
+            window.console.log('spork:node:mouseenter', node.id);
+            $scope.node = node;
             $scope.showMenu = true;
-            var e = $angular.element('#node-' + data.id)[0];
+            var e = $angular.element('#node-' + node.id)[0];
             var en = utils.getNumbers(e);
-            var menu = $('#spork-menu')[0];
+            var menu = $('.spork-menu')[0];
             $(menu).css({
                 top: en.cy,
                 left: en.r
             });
+        });
+
+        $scope.$on('spork:node:click', function(event, node){
+            window.console.log('spork:node:click', node.id);
+            $scope.doAddNode(node);
+        });
+
+        $scope.$on('spork:node:mouseleave', function(event, node){
+            window.console.log('spork:node:mouseleave', node.id);
         });
 
     }]);

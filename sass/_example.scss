@@ -3,22 +3,22 @@
     flex-direction: row;
 }
 
-menu {
+.spork-menu {
     position: absolute;
     top: 0;
     left: 0;
-    width: auto;
-    white-space: nowrap;
     z-index: 5;
     background: snow;
     border: 2px solid;
     margin: 0;
-    padding: 0 .5em;
-    list-style: none;
-    transition: .3s;
+    padding: .5em;
+    transition: .3s ease-out;
     border-radius: .5em;
-    transform: translate(.5em, -2em);
+    transform: translate(.5em, -2em) scale(0);
     box-shadow: 0 .75em 2em -.75em;
+    &.active {
+        transform: translate(.5em, -2em) scale(1);
+    }
     &::before,
     &::after {
         content: '';
@@ -31,22 +31,32 @@ menu {
     &::before {
         border-right-color: inherit;
         transform: translate(-2px, 0);
-        // border-width: 0 .7em .85em 0;
     }
     &::after {
         border-right-color: snow;
     }
-    li {
-        padding: .5em;
-        + li {
-            border-top: 1px solid;
+    div {
+        width: auto;
+        white-space: nowrap;
+        cursor: pointer;
+        line-height: 1;
+        &.flex-row {
+            justify-content: space-between;
         }
-    }
-    .spork-menu-toggle {
-        position: absolute;
-        top: -.25em;
-        right: -.25em;
-        padding: .5em;
+        + div {
+            border-top: 1px solid rgba(#000,.3);
+            margin-top: .5em;
+            padding-top: .5em;
+        }
+        span {
+            display: block;
+            + span {
+                margin-left: .5em;
+            }
+            &:hover {
+                color: skyblue;
+            }
+        }
     }
 }
 
